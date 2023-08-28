@@ -4,55 +4,75 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.comet.service.hr.pammpm.dao.Pammpm00200_Dao">
 
-	<select id="pammpm00200_service_list" parameterType="HashMap" resultType="HashMap">		
+		<select id="Pammpm00200_selectAllData" parameterType="HashMap" resultType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model">		
 		SELECT DISTINCT 
-	   HMM.EMP_NO, -- 사원번호
-	   HMM.DOC_NO, -- 문서번호(DTL과 JOIN하기 위해 )
-       HMM.WRT_DT, -- 등록일
-       HMM.CLOSE_YN, -- 마감여부
-       HMM.REQ_KND_FG, -- 신청번호
-       HEM.KOR_NM, -- 이름
-       HMM.BIZAREA_MNG_NO, -- 사업장관리번호
-       MBM.BIZAREA_NM,
-       MBM.POST_NO, --우편번호
-       MBM.ADDR_TP, --주소유형
-       MBM.BASE_ADDR, --기본주소
-       MBM.DTL_ADDR, --상세주소
-       HMM.PSPTCOM_YN, -- 우선지원대상기업 1: 해당, 2: 비해당
-       HMM.RSPT_EMP_NO, --담당자이름 뽑기 위한 담당자사원번호
-       HMM.RSPT_TEL_NO,--담당자전화번호
-       HMM.RSPT_EMAIL_NM, --담당자 이메일
-       HMM.REQ_KND_FG,--신청종류구분
-       HMM.TRGTP_RES_NO, --주민번호
-       HMM.CHLDBRTH_DT,--출산일
-       HMM.DIVD_YN, --분할여부사용
-	   HMM.TERM_CD,--임신기간(드롭다운리스트 디폴트 1)
-	   HMM.MLTPPRGN_YN, --다태아여부
-	   HMM.USL_WAGE_CD,--통상임금산정기준
-	   HMM.USL_WAGE_AMT, --통상임금금액(안쓰임)
-	   HMM.MM_FIXED_LABORTM_DY,--월소정근로시간 (안쓰임)
-	   MBM.BIZAREA_CD -- 사업장코드
-FROM HR_MTNITYIDNF_MST HMM
-LEFT OUTER JOIN HR_EMP_MST HEM ON (HMM.COMPANY_CD = HEM.COMPANY_CD) AND (HMM.EMP_NO = HEM.EMP_NO)
-LEFT OUTER JOIN MA_BIZAREA_MST MBM ON (HMM.COMPANY_CD = MBM.COMPANY_CD) AND (HMM.BIZAREA_CD =MBM.BIZAREA_CD)
-LEFT OUTER JOIN HR_SIBASE_MST HSM ON (HMM.COMPANY_CD = HSM.COMPANY_CD) AND (HSM.BIZAREA_CD= MBM.BIZAREA_CD)
-WHERE HMM.WRT_DT BETWEEN #{P_WRT_DT_START} AND #{P_WRT_DT_END} 
-	  AND  HEM.COMPANY_CD = #{P_COMPANY_CD}
-	  <if test='P_REQ_KND_FG !=null and P_REQ_KND_FG !=""'>
-      AND HMM.REQ_KND_FG = #{P_REQ_KND_FG}
-      </if>
-      <if test='P_EMP_NO !=null and P_EMP_NO !=""'>
-       AND UPPER(HMM.EMP_NO) LIKE '%' || UPPER(#{P_EMP_NO}) || '%'
-      </if>
-      <if test='P_KOR_NM !=null and P_KOR_NM !=""'>
-        AND UPPER(HEM.KOR_NM) LIKE '%' || UPPER(#{P_KOR_NM}) || '%'
-      </if>
-	  AND HSM.INSU_INFO_FG_TP = '2' 
-	  AND HSM.SLNRC_CD = '3' 
-	  AND HSM.INSU_DC_CD = '1' 
-	  AND HMM.IDNFR_FG ='1'
-	  ORDER BY HMM.WRT_DT DESC
+			   HMM.EMP_NO, -- 사원번호
+			   HMM.DOC_NO, -- 문서번호(DTL과 JOIN하기 위해 )
+		       HMM.WRT_DT, -- 등록일
+		       HMM.DECL_DT, --신고일
+		       HMM.CLOSE_YN, -- 마감여부
+		       HMM.REQ_KND_FG, -- 신청번호
+		       HEM.KOR_NM, -- 이름
+		       HMM.BIZAREA_MNG_NO, -- 사업장관리번호
+		       MBM.BIZAREA_NM,
+		       MBM.POST_NO, --우편번호
+		       MBM.ADDR_TP, --주소유형
+		       MBM.BASE_ADDR, --기본주소
+		       MBM.DTL_ADDR, --상세주소
+		       HMM.PSPTCOM_YN, -- 우선지원대상기업 1: 해당, 2: 비해당
+		       HMM.RSPT_EMP_NO, --담당자이름 뽑기 위한 담당자사원번호
+		       HMM.RSPT_TEL_NO,--담당자전화번호
+		       HMM.RSPT_EMAIL_NM, --담당자 이메일
+		       HMM.REQ_KND_FG,--신청종류구분
+		       HMM.CHLDBRTH_DT,--출산일
+		       HMM.DIVD_YN, --분할여부사용
+			   HMM.TERM_CD,--임신기간(드롭다운리스트 디폴트 1)
+			   HMM.MLTPPRGN_YN, --다태아여부
+			   HMM.USL_WAGE_CD,--통상임금산정기준
+			   HMM.USL_WAGE_AMT, --통상임금금액(안쓰임)
+			   HMM.MM_FIXED_LABORTM_DY,--월소정근로시간 (안쓰임)
+			   MBM.BIZAREA_CD, -- 사업장코드
+			   HEM.RES_NO --주민번호
+					FROM HR_MTNITYIDNF_MST HMM
+						LEFT OUTER JOIN HR_EMP_MST HEM ON (HMM.COMPANY_CD = HEM.COMPANY_CD) AND (HMM.EMP_NO = HEM.EMP_NO)
+						LEFT OUTER JOIN MA_BIZAREA_MST MBM ON (HMM.COMPANY_CD = MBM.COMPANY_CD) AND (HMM.BIZAREA_CD =MBM.BIZAREA_CD)
+						LEFT OUTER JOIN HR_SIBASE_MST HSM ON (HMM.COMPANY_CD = HSM.COMPANY_CD) AND (HSM.BIZAREA_CD= MBM.BIZAREA_CD)
+					WHERE 1=1 
+					 	  AND HMM.WRT_DT BETWEEN #{P_WRT_DT_START} AND #{P_WRT_DT_END} 
+						  AND  HEM.COMPANY_CD = #{P_COMPANY_CD}
+						  <if test='P_REQ_KND_FG !=null and P_REQ_KND_FG !=""'>
+					      AND HMM.REQ_KND_FG = #{P_REQ_KND_FG}
+					      </if>
+					      <if test='P_KEYWORD !=null and P_KEYWORD !=""'>
+   			 			  AND (UPPER(HMM.EMP_NO) LIKE '%' || UPPER(#{P_KEYWORD}) || '%' OR UPPER(HEM.KOR_NM) LIKE '%' || UPPER(#{P_KEYWORD}) || '%')
+						  </if>
+						  AND HSM.INSU_INFO_FG_TP = '2' 
+						  AND HSM.SLNRC_CD = '3' 
+						  AND HSM.INSU_DC_CD = '1' 
+						  AND HMM.IDNFR_FG ='1'
+						  ORDER BY HMM.WRT_DT DESC
 	</select>
  
+ 	<select id="Pammpm00200_selectHrMtnityidnfDtl" parameterType="HashMap" resultType="HashMap">		
+		 SELECT HMM.COMPANY_CD,
+				HMM.EMP_NO,
+		        HMM.DOC_NO,
+				HMD.SQ_NO,
+				HMD.START_DT,
+				HMD.END_DT,
+				TO_NUMBER(HMD.END_DT)-TO_NUMBER(HMD.START_DT)+1 AS BWRK_DY,
+				PAY_AMT,
+				PAY_YN
+		 	FROM HR_MTNITYIDNF_DTL HMD 
+				RIGHT OUTER JOIN HR_MTNITYIDNF_MST HMM
+				ON(HMD.COMPANY_CD = HMM.COMPANY_CD) AND (HMD.DOC_NO = HMM.DOC_NO) AND (HMD.EMP_NO = HMM.EMP_NO)
+			WHERE HMM.COMPANY_CD = #{P_COMPANY_CD}
+			AND HMD.START_DT IS NOT NULL 
+			AND HMD.END_DT IS NOT NULL 
+			AND HMM.DOC_NO = #{P_DOC_NO} 
+			AND HMM.EMP_NO = #{P_EMP_NO}
+			ORDER BY HMD.SQ_NO ASC
+	</select>
+ 	
 
 </mapper>
