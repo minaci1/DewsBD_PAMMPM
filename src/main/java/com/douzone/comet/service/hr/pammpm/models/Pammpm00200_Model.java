@@ -14,6 +14,26 @@ public class Pammpm00200_Model extends DzAbstractModel {
 	@DzModelField(name="_uid",desc="_uid",colName="_uid")
 	private String _uid;
 	
+	public String getDecl_dt() {
+		return decl_dt;
+	}
+
+	public void setDecl_dt(String decl_dt) {
+		this.decl_dt = decl_dt;
+	}
+
+	public String getRes_no() {
+		return res_no;
+	}
+
+	public void setRes_no(String res_no) {
+		this.res_no = res_no;
+	}
+
+
+
+
+
 	@SerializedName("COMPANY_CD")
 	@DzModelField(name="company_cd", desc="회사코드", colName="COMPANY_CD", colSize="7", isKey=false)
 	private String company_cd;
@@ -21,14 +41,31 @@ public class Pammpm00200_Model extends DzAbstractModel {
 	@SerializedName("EMP_NO")
 	@DzModelField(name="emp_no", desc="사원번호", colName="EMP_NO", colSize="20", isKey=false)
 	private String emp_no;
+	
+	@SerializedName("KEYWORD")
+	@DzModelField(name="keyword", desc="검색어", colName="KEYWORD", colSize="20", isKey=false)
+	private String keyword;
 	  
 	@SerializedName("DOC_NO")
 	@DzModelField(name="doc_no", desc="문서번호", colName="DOC_NO", colSize="20", isKey=false)
 	private String doc_no;
 	  
+	@SerializedName("DECL_DT")
+	@DzModelField(name="decl_dt", desc="신고일", colName="DECL_DT", colSize="7", isKey=false)
+	private String decl_dt;
+	
+	
 	@SerializedName("WRT_DT")
 	@DzModelField(name="wrt_dt", desc="작성일", colName="WRT_DT", colSize="8", isKey=false)
 	private String wrt_dt;
+	
+	@SerializedName("WRTDT_START")
+	@DzModelField(name="wrtDt_start", desc="시작일", colName="WRTDT_START", colSize="8", isKey=false)
+	private String wrtDt_start;
+	
+	@SerializedName("WRTDT_END")
+	@DzModelField(name="wrtDt_end", desc="종료일", colName="WRTDT_END", colSize="8", isKey=false)
+	private String wrtDt_end;
 	  
 	@SerializedName("CLOSE_YN")
 	@DzModelField(name="close_yn", desc="마감여부", colName="CLOSE_YN", colSize="1", isKey=false)
@@ -82,9 +119,9 @@ public class Pammpm00200_Model extends DzAbstractModel {
 	@DzModelField(name="rspt_email_nm", desc="담당이메일명", colName="RSPT_EMAIL_NM", colSize="50", isKey=false)
 	private String rspt_email_nm;
 	  
-	@SerializedName("TRGTP_RES_NO")
-	@DzModelField(name="trgtp_res_no", desc="대상자주민등록번호", colName="TRGTP_RES_NO", colSize="32", isKey=false)
-	private String trgtp_res_no;
+	@SerializedName("RES_NO")
+	@DzModelField(name="res_no", desc="주민등록번호", colName="RES_NO", colSize="32", isKey=false)
+	private String res_no;
 	  
 	@SerializedName("CHLDBRTH_DT")
 	@DzModelField(name="chldbrth_dt", desc="출산일", colName="CHLDBRTH_DT", colSize="8", isKey=false)
@@ -118,7 +155,7 @@ public class Pammpm00200_Model extends DzAbstractModel {
 	@DzModelField(name="bizarea_cd", desc="사업장코드", colName="BIZAREA_CD", colSize="7", isKey=false)
 	private BigDecimal bizarea_cd;
     
- 
+    
 	public String get_uid() {
 		return _uid;
 	}
@@ -264,11 +301,11 @@ public class Pammpm00200_Model extends DzAbstractModel {
 	}
  
 	public String getTrgtp_res_no() {
-		return trgtp_res_no;
+		return res_no;
 	}
 
 	public void setTrgtp_res_no(String trgtp_res_no) {
-		this.trgtp_res_no = trgtp_res_no;
+		this.res_no = trgtp_res_no;
 	}
  
 	public String getChldbrth_dt() {
@@ -335,16 +372,47 @@ public class Pammpm00200_Model extends DzAbstractModel {
 		this.bizarea_cd = bizarea_cd;
 	}
 
+	public String getWrtDt_start() {
+		return wrtDt_start;
+	}
+
+	public void setWrtDt_start(String wrtDt_start) {
+		this.wrtDt_start = wrtDt_start;
+	}
+
+	public String getWrtDt_end() {
+		return wrtDt_end;
+	}
+
+	public void setWrtDt_end(String wrtDt_end) {
+		this.wrtDt_end = wrtDt_end;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	
+	
+	
+	
+	
 	@Override
 	public String toString() {
-		return "Pammpm00200_Model [_uid=" + _uid + ", company_cd=" + company_cd + ", emp_no=" + emp_no + ", doc_no="
-				+ doc_no + ", wrt_dt=" + wrt_dt + ", close_yn=" + close_yn + ", req_knd_fg=" + req_knd_fg + ", kor_nm="
+		return "Pammpm00200_Model [_uid=" + _uid + ", company_cd=" + company_cd + ", emp_no=" + emp_no + ", keyword="
+				+ keyword + ", doc_no=" + doc_no + ", wrt_dt=" + wrt_dt + ", wrtDt_start=" + wrtDt_start
+				+ ", wrtDt_end=" + wrtDt_end + ", close_yn=" + close_yn + ", req_knd_fg=" + req_knd_fg + ", kor_nm="
 				+ kor_nm + ", bizarea_mng_no=" + bizarea_mng_no + ", bizarea_nm=" + bizarea_nm + ", post_no=" + post_no
 				+ ", addr_tp=" + addr_tp + ", base_addr=" + base_addr + ", dtl_addr=" + dtl_addr + ", psptcom_yn="
 				+ psptcom_yn + ", rspt_emp_no=" + rspt_emp_no + ", rspt_tel_no=" + rspt_tel_no + ", rspt_email_nm="
-				+ rspt_email_nm + ", trgtp_res_no=" + trgtp_res_no + ", chldbrth_dt=" + chldbrth_dt + ", divd_yn="
+				+ rspt_email_nm + ", trgtp_res_no=" + res_no + ", chldbrth_dt=" + chldbrth_dt + ", divd_yn="
 				+ divd_yn + ", term_cd=" + term_cd + ", mltpprgn_yn=" + mltpprgn_yn + ", usl_wage_cd=" + usl_wage_cd
 				+ ", usl_wage_amt=" + usl_wage_amt + ", mm_fixed_labortm_dy=" + mm_fixed_labortm_dy + ", bizarea_cd="
 				+ bizarea_cd + "]";
 	}
+
+	 
 }
