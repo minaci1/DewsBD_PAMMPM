@@ -14,26 +14,6 @@ public class Pammpm00200_Model extends DzAbstractModel {
 	@DzModelField(name="_uid",desc="_uid",colName="_uid")
 	private String _uid;
 	
-	public String getDecl_dt() {
-		return decl_dt;
-	}
-
-	public void setDecl_dt(String decl_dt) {
-		this.decl_dt = decl_dt;
-	}
-
-	public String getRes_no() {
-		return res_no;
-	}
-
-	public void setRes_no(String res_no) {
-		this.res_no = res_no;
-	}
-
-
-
-
-
 	@SerializedName("COMPANY_CD")
 	@DzModelField(name="company_cd", desc="회사코드", colName="COMPANY_CD", colSize="7", isKey=false)
 	private String company_cd;
@@ -153,9 +133,88 @@ public class Pammpm00200_Model extends DzAbstractModel {
 
     @SerializedName("BIZAREA_CD")
 	@DzModelField(name="bizarea_cd", desc="사업장코드", colName="BIZAREA_CD", colSize="7", isKey=false)
-	private BigDecimal bizarea_cd;
+	private String bizarea_cd;
     
     
+    @SerializedName("RSPT_EMP_NM")
+	@DzModelField(name="rspt_emp_nm", desc="담당자이름", colName="RSPT_EMP_NM", colSize="20", isKey=false)
+	private String rspt_emp_nm;
+	
+	
+    @SerializedName("INSERT_ID")
+    @DzModelField(name="insert_id", desc="INSERT_ID", colName="INSERT_ID")
+    protected String insert_id;
+
+    public String getInsert_id() {
+		return insert_id;
+	}
+
+	public void setInsert_id(String insert_id) {
+		this.insert_id = insert_id;
+	}
+
+	public java.util.Date getInsert_dts() {
+		return insert_dts;
+	}
+
+	public void setInsert_dts(java.util.Date insert_dts) {
+		this.insert_dts = insert_dts;
+	}
+
+	public String getInsert_ip() {
+		return insert_ip;
+	}
+
+	public void setInsert_ip(String insert_ip) {
+		this.insert_ip = insert_ip;
+	}
+
+	public String getUpdate_id() {
+		return update_id;
+	}
+
+	public void setUpdate_id(String update_id) {
+		this.update_id = update_id;
+	}
+
+	public java.util.Date getUpdate_dts() {
+		return update_dts;
+	}
+
+	public void setUpdate_dts(java.util.Date update_dts) {
+		this.update_dts = update_dts;
+	}
+
+	public String getUpdate_ip() {
+		return update_ip;
+	}
+
+	public void setUpdate_ip(String update_ip) {
+		this.update_ip = update_ip;
+	}
+
+	@SerializedName("INSERT_DTS")
+    @DzModelField(name="insert_dts", desc="INSERT_DTS", colName="INSERT_DTS")
+    protected java.util.Date insert_dts;
+    
+    @SerializedName("INSERT_IP")
+	@DzModelField(name="insert_ip", desc="등록IP", colName="INSERT_IP", colSize="200", isKey=false)
+	private String insert_ip;
+
+    @SerializedName("UPDATE_ID")
+    @DzModelField(name="update_id", desc="UPDATE_ID", colName="UPDATE_ID")
+    protected String update_id;
+
+    @SerializedName("UPDATE_DTS")
+    @DzModelField(name="update_dts", desc="UPDATE_DTS", colName="UPDATE_DTS")
+    protected java.util.Date update_dts;
+    
+    @SerializedName("UPDATE_IP")
+	@DzModelField(name="update_ip", desc="수정IP", colName="UPDATE_IP", colSize="200", isKey=false)
+	private String update_ip;
+
+    
+	
 	public String get_uid() {
 		return _uid;
 	}
@@ -300,13 +359,6 @@ public class Pammpm00200_Model extends DzAbstractModel {
 		this.rspt_email_nm = rspt_email_nm;
 	}
  
-	public String getTrgtp_res_no() {
-		return res_no;
-	}
-
-	public void setTrgtp_res_no(String trgtp_res_no) {
-		this.res_no = trgtp_res_no;
-	}
  
 	public String getChldbrth_dt() {
 		return chldbrth_dt;
@@ -364,11 +416,11 @@ public class Pammpm00200_Model extends DzAbstractModel {
 		this.mm_fixed_labortm_dy = mm_fixed_labortm_dy;
 	}
 	
-    public BigDecimal getBizarea_cd() {
+    public String getBizarea_cd() {
 		return bizarea_cd;
 	}
 
-	public void setBizarea_cd(BigDecimal bizarea_cd) {
+	public void setBizarea_cd(String bizarea_cd) {
 		this.bizarea_cd = bizarea_cd;
 	}
 
@@ -396,23 +448,48 @@ public class Pammpm00200_Model extends DzAbstractModel {
 		this.keyword = keyword;
 	}
 	
-	
-	
-	
-	
+		public String getDecl_dt() {
+		return decl_dt;
+	}
+
+	public void setDecl_dt(String decl_dt) {
+		this.decl_dt = decl_dt;
+	}
+
+	public String getRes_no() {
+		return res_no;
+	}
+
+	public void setRes_no(String res_no) {
+		this.res_no = res_no;
+	}
+
+	public String getRspt_emp_nm() {
+		return rspt_emp_nm;
+	}
+
+	public void setRspt_emp_nm(String rspt_emp_nm) {
+		this.rspt_emp_nm = rspt_emp_nm;
+	}
+
 	@Override
 	public String toString() {
 		return "Pammpm00200_Model [_uid=" + _uid + ", company_cd=" + company_cd + ", emp_no=" + emp_no + ", keyword="
-				+ keyword + ", doc_no=" + doc_no + ", wrt_dt=" + wrt_dt + ", wrtDt_start=" + wrtDt_start
-				+ ", wrtDt_end=" + wrtDt_end + ", close_yn=" + close_yn + ", req_knd_fg=" + req_knd_fg + ", kor_nm="
-				+ kor_nm + ", bizarea_mng_no=" + bizarea_mng_no + ", bizarea_nm=" + bizarea_nm + ", post_no=" + post_no
-				+ ", addr_tp=" + addr_tp + ", base_addr=" + base_addr + ", dtl_addr=" + dtl_addr + ", psptcom_yn="
-				+ psptcom_yn + ", rspt_emp_no=" + rspt_emp_no + ", rspt_tel_no=" + rspt_tel_no + ", rspt_email_nm="
-				+ rspt_email_nm + ", trgtp_res_no=" + res_no + ", chldbrth_dt=" + chldbrth_dt + ", divd_yn="
-				+ divd_yn + ", term_cd=" + term_cd + ", mltpprgn_yn=" + mltpprgn_yn + ", usl_wage_cd=" + usl_wage_cd
-				+ ", usl_wage_amt=" + usl_wage_amt + ", mm_fixed_labortm_dy=" + mm_fixed_labortm_dy + ", bizarea_cd="
-				+ bizarea_cd + "]";
+				+ keyword + ", doc_no=" + doc_no + ", decl_dt=" + decl_dt + ", wrt_dt=" + wrt_dt + ", wrtDt_start="
+				+ wrtDt_start + ", wrtDt_end=" + wrtDt_end + ", close_yn=" + close_yn + ", req_knd_fg=" + req_knd_fg
+				+ ", kor_nm=" + kor_nm + ", bizarea_mng_no=" + bizarea_mng_no + ", bizarea_nm=" + bizarea_nm
+				+ ", post_no=" + post_no + ", addr_tp=" + addr_tp + ", base_addr=" + base_addr + ", dtl_addr="
+				+ dtl_addr + ", psptcom_yn=" + psptcom_yn + ", rspt_emp_no=" + rspt_emp_no + ", rspt_tel_no="
+				+ rspt_tel_no + ", rspt_email_nm=" + rspt_email_nm + ", res_no=" + res_no + ", chldbrth_dt="
+				+ chldbrth_dt + ", divd_yn=" + divd_yn + ", term_cd=" + term_cd + ", mltpprgn_yn=" + mltpprgn_yn
+				+ ", usl_wage_cd=" + usl_wage_cd + ", usl_wage_amt=" + usl_wage_amt + ", mm_fixed_labortm_dy="
+				+ mm_fixed_labortm_dy + ", bizarea_cd=" + bizarea_cd + ", rspt_emp_nm=" + rspt_emp_nm + ", insert_id="
+				+ insert_id + ", insert_dts=" + insert_dts + ", insert_ip=" + insert_ip + ", update_id=" + update_id
+				+ ", update_dts=" + update_dts + ", update_ip=" + update_ip + "]";
 	}
 
+ 
+
+ 
 	 
 }
