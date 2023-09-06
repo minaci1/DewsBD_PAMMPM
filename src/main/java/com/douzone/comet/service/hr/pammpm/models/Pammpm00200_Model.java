@@ -1,6 +1,7 @@
 package com.douzone.comet.service.hr.pammpm.models;
  
 import java.math.BigDecimal;
+import java.util.Date;
 
 import com.douzone.gpd.jdbc.mybatis.model.DzAbstractModel;
 import com.douzone.gpd.restful.annotation.DzModel;
@@ -13,6 +14,10 @@ public class Pammpm00200_Model extends DzAbstractModel {
 	@SerializedName("_uid")
 	@DzModelField(name="_uid",desc="_uid",colName="_uid")
 	private String _uid;
+	
+	@SerializedName("__UUID")
+	@DzModelField(name="__UUID",desc="__UUID",colName="__UUID")
+	private String __UUID;
 	
 	@SerializedName("COMPANY_CD")
 	@DzModelField(name="company_cd", desc="회사코드", colName="COMPANY_CD", colSize="7", isKey=false)
@@ -29,28 +34,43 @@ public class Pammpm00200_Model extends DzAbstractModel {
 	@SerializedName("DOC_NO")
 	@DzModelField(name="doc_no", desc="문서번호", colName="DOC_NO", colSize="20", isKey=false)
 	private String doc_no;
-	  
+	
+	@SerializedName("SQ_NO")
+	@DzModelField(name="sq_no", desc="순번번호", colName="SQ_NO", colSize="20", isKey=false)
+	private String sq_no;
+  
 	@SerializedName("DECL_DT")
 	@DzModelField(name="decl_dt", desc="신고일", colName="DECL_DT", colSize="7", isKey=false)
 	private String decl_dt;
 	
-	
 	@SerializedName("WRT_DT")
 	@DzModelField(name="wrt_dt", desc="작성일", colName="WRT_DT", colSize="8", isKey=false)
 	private String wrt_dt;
+ 
+	@SerializedName("START_DT")
+	@DzModelField(name="start_dt", desc="시작일", colName="START_DT", colSize="8", isKey=false)
+	private String start_dt;
 	
-	@SerializedName("WRTDT_START")
-	@DzModelField(name="wrtDt_start", desc="시작일", colName="WRTDT_START", colSize="8", isKey=false)
-	private String wrtDt_start;
+	@SerializedName("END_DT")
+	@DzModelField(name="end_dt", desc="종료일", colName="END_DT", colSize="8", isKey=false)
+	private String end_dt;
 	
-	@SerializedName("WRTDT_END")
-	@DzModelField(name="wrtDt_end", desc="종료일", colName="WRTDT_END", colSize="8", isKey=false)
-	private String wrtDt_end;
+	@SerializedName("CHLDBRTH_DT")
+	@DzModelField(name="chldbrth_dt", desc="출산일", colName="CHLDBRTH_DT", colSize="8", isKey=false)
+	private String chldbrth_dt;
 	  
 	@SerializedName("CLOSE_YN")
 	@DzModelField(name="close_yn", desc="마감여부", colName="CLOSE_YN", colSize="1", isKey=false)
 	private String close_yn;
-	  
+	
+	@SerializedName("PAY_YN")
+	@DzModelField(name="pay_yn", desc="급여지급여부", colName="PAY_YN", colSize="1", isKey=false)
+	private String pay_yn;
+ 
+	@SerializedName("PAY_AMT")
+	@DzModelField(name="pay_amt", desc="통상임금지급액", colName="PAY_AMT", colSize="5", isKey=false)
+	private String pay_amt;
+ 
 	@SerializedName("REQ_KND_FG")
 	@DzModelField(name="req_knd_fg", desc="신청종류구분", colName="REQ_KND_FG", colSize="5", isKey=false)
 	private String req_knd_fg;
@@ -99,14 +119,14 @@ public class Pammpm00200_Model extends DzAbstractModel {
 	@DzModelField(name="rspt_email_nm", desc="담당이메일명", colName="RSPT_EMAIL_NM", colSize="50", isKey=false)
 	private String rspt_email_nm;
 	  
+	@SerializedName("TRGTP_RES_NO")
+	@DzModelField(name="trgtp_res_no", desc="대상자주민등록번호", colName="TRGTP_RES_NO", colSize="32", isKey=false)
+	private String trgtp_res_no;
+	
 	@SerializedName("RES_NO")
-	@DzModelField(name="res_no", desc="주민등록번호", colName="RES_NO", colSize="32", isKey=false)
+	@DzModelField(name="res_no", desc="대상자주민등록번호", colName="RES_NO", colSize="32", isKey=false)
 	private String res_no;
-	  
-	@SerializedName("CHLDBRTH_DT")
-	@DzModelField(name="chldbrth_dt", desc="출산일", colName="CHLDBRTH_DT", colSize="8", isKey=false)
-	private String chldbrth_dt;
-	  
+	  	  
 	@SerializedName("DIVD_YN")
 	@DzModelField(name="divd_yn", desc="분할여부", colName="DIVD_YN", colSize="1", isKey=false)
 	private String divd_yn;
@@ -143,22 +163,88 @@ public class Pammpm00200_Model extends DzAbstractModel {
 	
     @SerializedName("INSERT_ID")
     @DzModelField(name="insert_id", desc="INSERT_ID", colName="INSERT_ID")
-    protected String insert_id;
+    private String insert_id;
 
+    @SerializedName("INSERT_DTS")
+    @DzModelField(name="insert_dts", desc="INSERT_DTS", colName="INSERT_DTS")
+    protected java.util.Date insert_dts;
+    
+    @SerializedName("INSERT_IP")
+	@DzModelField(name="insert_ip", desc="등록IP", colName="INSERT_IP", colSize="200", isKey=false)
+	private String insert_ip;
+
+    @SerializedName("UPDATE_ID")
+    @DzModelField(name="update_id", desc="UPDATE_ID", colName="UPDATE_ID")
+    private String  update_id;
+
+    @SerializedName("UPDATE_DTS")
+    @DzModelField(name="update_dts", desc="UPDATE_DTS", colName="UPDATE_DTS")
+    protected java.util.Date update_dts;
+    
+    @SerializedName("UPDATE_IP")
+	@DzModelField(name="update_ip", desc="수정IP", colName="UPDATE_IP", colSize="200", isKey=false)
+	private String update_ip;
+    
+    @SerializedName("COUNT_ROW")
+	@DzModelField(name="count_row", desc="추가갯수", colName="COUNT_ROW", colSize="200", isKey=false)
+	private int count_row;
+    
+    
+	public int getCount_row() {
+		return count_row;
+	}
+
+	public void setCount_row(int count_row) {
+		this.count_row = count_row;
+	}
+
+	public String get__UUID() {
+		return __UUID;
+	}
+
+	public void set__UUID(String __UUID) {
+		this.__UUID = __UUID;
+	}
+
+	public String getSq_no() {
+		return sq_no;
+	}
+
+	public void setSq_no(String sq_no) {
+		this.sq_no = sq_no;
+	}
+
+    
+	public Date getInsert_dts() {
+		return insert_dts;
+	}
+
+	public void setInsert_dts(Date insert_dts) {
+		this.insert_dts = insert_dts;
+	}
+
+	public Date getUpdate_dts() {
+		return update_dts;
+	}
+
+	public void setUpdate_dts(Date update_dts) {
+		this.update_dts = update_dts;
+	}
+
+	public String getTrgtp_res_no() {
+		return trgtp_res_no;
+	}
+
+	public void setTrgtp_res_no(String trgtp_res_no) {
+		this.trgtp_res_no = trgtp_res_no;
+	}
+    
     public String getInsert_id() {
 		return insert_id;
 	}
 
 	public void setInsert_id(String insert_id) {
 		this.insert_id = insert_id;
-	}
-
-	public java.util.Date getInsert_dts() {
-		return insert_dts;
-	}
-
-	public void setInsert_dts(java.util.Date insert_dts) {
-		this.insert_dts = insert_dts;
 	}
 
 	public String getInsert_ip() {
@@ -177,14 +263,6 @@ public class Pammpm00200_Model extends DzAbstractModel {
 		this.update_id = update_id;
 	}
 
-	public java.util.Date getUpdate_dts() {
-		return update_dts;
-	}
-
-	public void setUpdate_dts(java.util.Date update_dts) {
-		this.update_dts = update_dts;
-	}
-
 	public String getUpdate_ip() {
 		return update_ip;
 	}
@@ -192,29 +270,7 @@ public class Pammpm00200_Model extends DzAbstractModel {
 	public void setUpdate_ip(String update_ip) {
 		this.update_ip = update_ip;
 	}
-
-	@SerializedName("INSERT_DTS")
-    @DzModelField(name="insert_dts", desc="INSERT_DTS", colName="INSERT_DTS")
-    protected java.util.Date insert_dts;
-    
-    @SerializedName("INSERT_IP")
-	@DzModelField(name="insert_ip", desc="등록IP", colName="INSERT_IP", colSize="200", isKey=false)
-	private String insert_ip;
-
-    @SerializedName("UPDATE_ID")
-    @DzModelField(name="update_id", desc="UPDATE_ID", colName="UPDATE_ID")
-    protected String update_id;
-
-    @SerializedName("UPDATE_DTS")
-    @DzModelField(name="update_dts", desc="UPDATE_DTS", colName="UPDATE_DTS")
-    protected java.util.Date update_dts;
-    
-    @SerializedName("UPDATE_IP")
-	@DzModelField(name="update_ip", desc="수정IP", colName="UPDATE_IP", colSize="200", isKey=false)
-	private String update_ip;
-
-    
-	
+ 
 	public String get_uid() {
 		return _uid;
 	}
@@ -263,6 +319,22 @@ public class Pammpm00200_Model extends DzAbstractModel {
 		this.close_yn = close_yn;
 	}
  
+	public String getPay_yn() {
+		return pay_yn;
+	}
+
+	public void setPay_yn(String pay_yn) {
+		this.pay_yn = pay_yn;
+	}
+
+	public String getPay_amt() {
+		return pay_amt;
+	}
+
+	public void setPay_amt(String pay_amt) {
+		this.pay_amt = pay_amt;
+	}
+
 	public String getReq_knd_fg() {
 		return req_knd_fg;
 	}
@@ -423,22 +495,7 @@ public class Pammpm00200_Model extends DzAbstractModel {
 	public void setBizarea_cd(String bizarea_cd) {
 		this.bizarea_cd = bizarea_cd;
 	}
-
-	public String getWrtDt_start() {
-		return wrtDt_start;
-	}
-
-	public void setWrtDt_start(String wrtDt_start) {
-		this.wrtDt_start = wrtDt_start;
-	}
-
-	public String getWrtDt_end() {
-		return wrtDt_end;
-	}
-
-	public void setWrtDt_end(String wrtDt_end) {
-		this.wrtDt_end = wrtDt_end;
-	}
+ 
 
 	public String getKeyword() {
 		return keyword;
@@ -448,7 +505,7 @@ public class Pammpm00200_Model extends DzAbstractModel {
 		this.keyword = keyword;
 	}
 	
-		public String getDecl_dt() {
+	public String getDecl_dt() {
 		return decl_dt;
 	}
 
@@ -472,24 +529,40 @@ public class Pammpm00200_Model extends DzAbstractModel {
 		this.rspt_emp_nm = rspt_emp_nm;
 	}
 
-	@Override
-	public String toString() {
-		return "Pammpm00200_Model [_uid=" + _uid + ", company_cd=" + company_cd + ", emp_no=" + emp_no + ", keyword="
-				+ keyword + ", doc_no=" + doc_no + ", decl_dt=" + decl_dt + ", wrt_dt=" + wrt_dt + ", wrtDt_start="
-				+ wrtDt_start + ", wrtDt_end=" + wrtDt_end + ", close_yn=" + close_yn + ", req_knd_fg=" + req_knd_fg
-				+ ", kor_nm=" + kor_nm + ", bizarea_mng_no=" + bizarea_mng_no + ", bizarea_nm=" + bizarea_nm
-				+ ", post_no=" + post_no + ", addr_tp=" + addr_tp + ", base_addr=" + base_addr + ", dtl_addr="
-				+ dtl_addr + ", psptcom_yn=" + psptcom_yn + ", rspt_emp_no=" + rspt_emp_no + ", rspt_tel_no="
-				+ rspt_tel_no + ", rspt_email_nm=" + rspt_email_nm + ", res_no=" + res_no + ", chldbrth_dt="
-				+ chldbrth_dt + ", divd_yn=" + divd_yn + ", term_cd=" + term_cd + ", mltpprgn_yn=" + mltpprgn_yn
-				+ ", usl_wage_cd=" + usl_wage_cd + ", usl_wage_amt=" + usl_wage_amt + ", mm_fixed_labortm_dy="
-				+ mm_fixed_labortm_dy + ", bizarea_cd=" + bizarea_cd + ", rspt_emp_nm=" + rspt_emp_nm + ", insert_id="
-				+ insert_id + ", insert_dts=" + insert_dts + ", insert_ip=" + insert_ip + ", update_id=" + update_id
-				+ ", update_dts=" + update_dts + ", update_ip=" + update_ip + "]";
+	public String getStart_dt() {
+		return start_dt;
 	}
 
+	public void setStart_dt(String start_dt) {
+		this.start_dt = start_dt;
+	}
+
+	public String getEnd_dt() {
+		return end_dt;
+	}
+
+	public void setEnd_dt(String end_dt) {
+		this.end_dt = end_dt;
+	}
  
 
- 
-	 
+	@Override
+	public String toString() {
+		return "Pammpm00200_Model [_uid=" + _uid + ", __UUID=" + __UUID + ", company_cd=" + company_cd + ", emp_no="
+				+ emp_no + ", keyword=" + keyword + ", doc_no=" + doc_no + ", sq_no=" + sq_no + ", decl_dt=" + decl_dt
+				+ ", wrt_dt=" + wrt_dt + ", start_dt=" + start_dt + ", end_dt=" + end_dt + ", chldbrth_dt="
+				+ chldbrth_dt + ", close_yn=" + close_yn + ", pay_yn=" + pay_yn + ", pay_amt=" + pay_amt
+				+ ", req_knd_fg=" + req_knd_fg + ", kor_nm=" + kor_nm + ", bizarea_mng_no=" + bizarea_mng_no
+				+ ", bizarea_nm=" + bizarea_nm + ", post_no=" + post_no + ", addr_tp=" + addr_tp + ", base_addr="
+				+ base_addr + ", dtl_addr=" + dtl_addr + ", psptcom_yn=" + psptcom_yn + ", rspt_emp_no=" + rspt_emp_no
+				+ ", rspt_tel_no=" + rspt_tel_no + ", rspt_email_nm=" + rspt_email_nm + ", trgtp_res_no=" + trgtp_res_no
+				+ ", res_no=" + res_no + ", divd_yn=" + divd_yn + ", term_cd=" + term_cd + ", mltpprgn_yn="
+				+ mltpprgn_yn + ", usl_wage_cd=" + usl_wage_cd + ", usl_wage_amt=" + usl_wage_amt
+				+ ", mm_fixed_labortm_dy=" + mm_fixed_labortm_dy + ", bizarea_cd=" + bizarea_cd + ", rspt_emp_nm="
+				+ rspt_emp_nm + ", insert_id=" + insert_id + ", insert_dts=" + insert_dts + ", insert_ip=" + insert_ip
+				+ ", update_id=" + update_id + ", update_dts=" + update_dts + ", update_ip=" + update_ip + "]";
+	}
+
+
+ 	 
 }
