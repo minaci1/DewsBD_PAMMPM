@@ -5,133 +5,418 @@
 <mapper
 	namespace="com.douzone.comet.service.hr.pammpm.dao.Pammpm00200_Dao">
 
-	<select id="Pammpm00200_selectAllData" parameterType="HashMap"
-		resultType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model">
-		SELECT DISTINCT
-		HMM.EMP_NO, -- 사원번호
-		HMM.DOC_NO, -- 문서번호(DTL과 JOIN하기 위해 )
-		HMM.WRT_DT, -- 등록일
-		HMM.DECL_DT, --신고일
-		HMM.CLOSE_YN, -- 마감여부
-		HMM.REQ_KND_FG, -- 신청번호
-		HEM.KOR_NM, -- 이름
-		HMM.BIZAREA_MNG_NO, -- 사업장관리번호
-		MBM.BIZAREA_NM,
-		HMM.POST_NO, --우편번호
-		MBM.ADDR_TP, --주소유형
-		HMM.BASE_ADDR, --기본주소
-		HMM.DTL_ADDR, --상세주소
-		HMM.PSPTCOM_YN, -- 우선지원대상기업 1: 해당, 2: 비해당
-		HMM.RSPT_EMP_NO, --담당자이름 뽑기 위한 담당자사원번호
-		HMM.RSPT_TEL_NO,--담당자전화번호
-		HMM.RSPT_EMAIL_NM, --담당자 이메일
-		HMM.REQ_KND_FG,--신청종류구분
-		HMM.CHLDBRTH_DT,--출산일
-		HMM.DIVD_YN, --분할여부사용
-		HMM.TERM_CD,--임신기간(드롭다운리스트 디폴트 1)
-		HMM.MLTPPRGN_YN, --다태아여부
-		HMM.USL_WAGE_CD,--통상임금산정기준
-		HMM.USL_WAGE_AMT, --통상임금금액(안쓰임)
-		HMM.MM_FIXED_LABORTM_DY,--월소정근로시간 (안쓰임)
-		HMM.BIZAREA_CD, -- 사업장코드
-		HEM.RES_NO --주민번호
+	<select id="Pammpm00200_selectAllData" parameterType="HashMap" resultType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model">
+		  SELECT
+				DISTINCT
+				HMM.EMP_NO,  							-- 사원번호
+				HMM.DOC_NO, 							-- 문서번호(DTL과 JOIN하기 위해 )
+				HMM.WRT_DT, 							-- 등록일
+				HMM.DECL_DT, 							--신고일
+				HMM.CLOSE_YN, 							-- 마감여부
+				HMM.REQ_KND_FG, 						-- 신청번호
+				HEM.KOR_NM, 							-- 이름
+				HMM.BIZAREA_MNG_NO, 					-- 사업장관리번호
+				MBM.BIZAREA_NM,							-- 사업장명
+				HMM.POST_NO, 							--우편번호
+				MBM.ADDR_TP, 							--주소유형
+				HMM.BASE_ADDR,							--기본주소
+				HMM.DTL_ADDR, 							--상세주소
+				HMM.PSPTCOM_YN, 						--우선지원대상기업 1:해당, 2: 비해당
+				HMM.RSPT_EMP_NO, 						--담당자이름 뽑기 위한 담당자사원번호
+				HMM.RSPT_TEL_NO,						--담당자전화번호
+				HEM2.KOR_NM AS RSPT_EMP_NM,				--담당자명
+				HMM.RSPT_EMAIL_NM, 						--담당자 이메일
+				HMM.REQ_KND_FG,							--신청종류구분
+				HMM.CHLDBRTH_DT,						--출산일
+				HMM.DIVD_YN, 							--분할여부사용
+				HMM.TERM_CD,							--임신기간(드롭다운리스트디폴트 1)
+				HMM.MLTPPRGN_YN, 						--다태아여부
+				HMM.USL_WAGE_CD,						--통상임금산정기준
+				HMM.USL_WAGE_AMT, 						--통상임금금액(안쓰임)
+				HMM.MM_FIXED_LABORTM_DY,				--월소정근로시간 (안쓰임)
+				HMM.BIZAREA_CD, 						-- 사업장코드
+				HEM.RES_NO 								--주민번호
 		FROM HR_MTNITYIDNF_MST HMM
-		LEFT OUTER JOIN HR_EMP_MST HEM ON (HMM.COMPANY_CD = HEM.COMPANY_CD) AND
-		(HMM.EMP_NO = HEM.EMP_NO)
-		LEFT OUTER JOIN MA_BIZAREA_MST MBM ON (HMM.COMPANY_CD = MBM.COMPANY_CD)
-		AND (HMM.BIZAREA_CD =MBM.BIZAREA_CD)
-		LEFT OUTER JOIN HR_SIBASE_MST HSM ON (HMM.COMPANY_CD = HSM.COMPANY_CD) AND
-		(HSM.BIZAREA_CD= MBM.BIZAREA_CD)
-		WHERE 1=1
-		AND HMM.WRT_DT BETWEEN #{P_WRT_DT_START} AND #{P_WRT_DT_END}
-		AND HEM.COMPANY_CD = #{P_COMPANY_CD}
+			LEFT OUTER JOIN HR_EMP_MST HEM
+				ON( HMM.COMPANY_CD = HEM.COMPANY_CD ) AND ( HMM.EMP_NO = HEM.EMP_NO )
+			LEFT OUTER JOIN MA_BIZAREA_MST MBM
+				ON( HMM.COMPANY_CD = MBM.COMPANY_CD ) AND ( HMM.BIZAREA_CD = MBM.BIZAREA_CD )
+			LEFT OUTER JOIN HR_SIBASE_MST HSM
+				ON( HMM.COMPANY_CD = HSM.COMPANY_CD ) AND ( HSM.BIZAREA_CD= MBM.BIZAREA_CD )
+			LEFT OUTER JOIN HR_EMP_MST HEM2
+				ON ( HMM.RSPT_EMP_NO=HEM2.EMP_NO ) AND ( HMM.COMPANY_CD=HEM2.COMPANY_CD )
+			WHERE 1=1 AND HMM.WRT_DT
+		<choose>
+			<when test="P_WRT_DT_START == P_WRT_DT_END">
+				= #{P_WRT_DT_START}
+			</when>
+			<otherwise>
+				BETWEEN #{P_WRT_DT_START} AND #{P_WRT_DT_END}
+			</otherwise>
+		</choose>
+			AND HEM.COMPANY_CD = #{P_COMPANY_CD}
 		<if test='P_REQ_KND_FG !=null and P_REQ_KND_FG !=""'>
 			AND HMM.REQ_KND_FG = #{P_REQ_KND_FG}
 		</if>
 		<if test='P_KEYWORD !=null and P_KEYWORD !=""'>
-			AND (UPPER(HMM.EMP_NO) LIKE '%' || UPPER(#{P_KEYWORD}) || '%' OR
-			UPPER(HEM.KOR_NM) LIKE '%' || UPPER(#{P_KEYWORD}) || '%')
+			AND ( UPPER(HMM.EMP_NO) LIKE '%' || UPPER( #{P_KEYWORD} ) || '%' OR
+			UPPER(HEM.KOR_NM) LIKE '%' || UPPER( #{P_KEYWORD}) || '%' )
 		</if>
-		AND HSM.INSU_INFO_FG_TP = '2'
-		AND HSM.SLNRC_CD = '3'
-		AND HSM.INSU_DC_CD = '1'
-		AND HMM.IDNFR_FG ='1'
-		ORDER BY HMM.WRT_DT DESC
+		AND HMM.IDNFR_FG = '1'
+		ORDER BY HMM.WRT_DT
 	</select>
 
 	<select id="Pammpm00200_selectHrMtnityidnfDtl" parameterType="HashMap" resultType="HashMap">
-		SELECT HMM.COMPANY_CD,
-		HMM.EMP_NO,
-		HMM.DOC_NO,
-		HMD.SQ_NO,
-		HMD.START_DT,
-		HMD.END_DT,
-		TO_NUMBER(HMD.END_DT)-TO_NUMBER(HMD.START_DT)+1 AS BWRK_DY,
-		HMD.PAY_AMT,
-		HMD.PAY_YN,
-		HMM.USL_WAGE_AMT
+		SELECT 
+			  HMM.COMPANY_CD,
+			  HMM.EMP_NO,
+			  HMM.DOC_NO,
+		      HMD.SQ_NO,
+			  HMD.START_DT,
+			  HMD.END_DT,
+			  TO_NUMBER (HMD.END_DT) - TO_NUMBER(HMD.START_DT) + 1 AS BWRK_DY,
+			  HMD.PAY_AMT,
+			  HMD.PAY_YN,
+			  HMM.USL_WAGE_AMT
 		FROM HR_MTNITYIDNF_DTL HMD
-		RIGHT OUTER JOIN HR_MTNITYIDNF_MST HMM
-		ON(HMD.COMPANY_CD = HMM.COMPANY_CD) AND (HMD.DOC_NO = HMM.DOC_NO) AND (HMD.EMP_NO =
-		HMM.EMP_NO)
+			 RIGHT OUTER JOIN HR_MTNITYIDNF_MST HMM
+				ON ( HMD.COMPANY_CD = HMM.COMPANY_CD ) 
+				AND ( HMD.DOC_NO = HMM.DOC_NO )
+				AND ( HMD.EMP_NO = HMM.EMP_NO )
 		WHERE HMM.COMPANY_CD = #{P_COMPANY_CD}
-		AND HMD.START_DT IS NOT NULL
-		AND HMD.END_DT IS NOT NULL
-		AND HMM.DOC_NO = #{P_DOC_NO}
-		AND HMM.EMP_NO = #{P_EMP_NO}
+			  AND ( HMD.START_DT IS NOT NULL )
+			  AND ( HMD.END_DT IS NOT NULL )
+			  AND ( HMM.DOC_NO = #{P_DOC_NO} )
+			  AND ( HMM.EMP_NO = #{P_EMP_NO} ) 
 		ORDER BY HMD.SQ_NO ASC
 	</select>
 
 
-	<select id="pammpm00200_InsuValDc" parameterType="HashMap" resultType="HashMap"> 
-		SELECT DISTINCT HMM.BIZAREA_MNG_NO
-			FROM HR_SIBASE_MST HSM 
-				INNER JOIN HR_MTNITYIDNF_MST HMM
-				ON(HMM.BIZAREA_CD = HSM.BIZAREA_CD) AND (HMM.BIZAREA_MNG_NO = HSM.INSU_VAL_DC)
-			WHERE HSM.INSU_INFO_FG_TP ='2' AND SLNRC_CD ='3'AND INSU_DC_CD ='1'
-			AND HSM.COMPANY_CD = #{P_COMPANY_CD} 
-			AND HSM.BIZAREA_CD = #{P_BIZAREA_CD}
+	<select id="pammpm00200_InsuValDc" parameterType="HashMap" resultType="HashMap">
+		SELECT DISTINCT 
+			  HMM.BIZAREA_MNG_NO
+		FROM HR_SIBASE_MST HSM
+			INNER JOIN HR_MTNITYIDNF_MST HMM
+				ON ( HMM.BIZAREA_CD = HSM.BIZAREA_CD )
+				AND (HMM.BIZAREA_MNG_NO = HSM.INSU_VAL_DC )
+		WHERE HSM.INSU_INFO_FG_TP ='2'
+			  AND ( SLNRC_CD ='3'AND INSU_DC_CD ='1' )
+			  AND ( HSM.COMPANY_CD = #{P_COMPANY_CD} )
+			  AND ( HSM.BIZAREA_CD = #{P_BIZAREA_CD} )
 	</select>
-	
-	<select id="pammpm00200_BizareaInfo" parameterType="HashMap" resultType="HashMap"> 
-		SELECT BIZAREA_NM,
-		       POST_NO,
-	   		   ADDR_TP,
-	           BASE_ADDR,
-	           DTL_ADDR
-	    	FROM MA_BIZAREA_MST
-			WHERE  COMPANY_CD = #{P_COMPANY_CD} AND BIZAREA_CD = #{P_BIZAREA_CD}
+
+	<select id="pammpm00200_BizareaInfo" parameterType="HashMap" resultType="HashMap">
+		SELECT 
+			  BIZAREA_NM,
+			  POST_NO,
+			  ADDR_TP,
+			  BASE_ADDR,
+			  DTL_ADDR
+		FROM MA_BIZAREA_MST
+			WHERE ( COMPANY_CD = #{P_COMPANY_CD} ) 
+			  AND ( BIZAREA_CD =#{P_BIZAREA_CD} )
 	</select>
-	
- 	<select id="pammpm00200_CharCdValDc" parameterType="HashMap" resultType="HashMap"> 
-		SELECT DISTINCT HMM.PSPTCOM_YN
-			FROM HR_CONFIG_MST HCM
-				INNER JOIN HR_MTNITYIDNF_MST HMM
-					ON(HCM.CHAR_CD_VAL_DC = HMM.PSPTCOM_YN)
-			WHERE HCM.CONFIG_CD ='PAY027'
+
+	<select id="pammpm00200_CharCdValDc" parameterType="HashMap" resultType="HashMap">
+		SELECT DISTINCT 
+			   HMM.PSPTCOM_YN
+		FROM HR_CONFIG_MST HCM
+		INNER JOIN HR_MTNITYIDNF_MST HMM
+			ON ( HCM.CHAR_CD_VAL_DC = HMM.PSPTCOM_YN )
+		WHERE HCM.CONFIG_CD ='PAY027'
 	</select>
-	
-	
-	<select id="pammpm00200_LoginMemberInfo" parameterType="HashMap" resultType="HashMap"> 
+
+	<select id="pammpm00200_LoginMemberInfo" parameterType="HashMap" resultType="HashMap">
 		SELECT
-			HEM.KOR_NM AS RSPT_EMP_NM,
-			HED.TEL_NO,
-			HED.EMAIL_NM
-		FROM 
-			HR_EMP_MST HEM
+			  HEM.KOR_NM AS RSPT_EMP_NM,
+			  HEM.EMP_NO AS RSPT_EMP_NO,
+			  HED.TEL_NO,
+			  HED.EMAIL_NM
+		FROM HR_EMP_MST HEM
 		JOIN HR_EMPINFO_DTL HED
-		ON (HEM.EMP_NO=HED.EMP_NO)
-		AND HEM.EMP_NO=#{P_EMP_NO}
-		AND HEM.COMPANY_CD=#{P_COMPANY_CD}
-	
+			ON ( HEM.EMP_NO = HED.EMP_NO )
+		    AND ( HEM.EMP_NO = #{P_EMP_NO} )
+		    AND ( HEM.COMPANY_CD=#{P_COMPANY_CD} )
 	</select>
-	
-	<select id="pammpm00200_ResNo" parameterType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model" resultType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model"> 
-		SELECT RES_NO
+
+	<select id="pammpm00200_ResNo"
+		parameterType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model"
+		resultType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model">
+		SELECT 
+			  RES_NO
 		FROM HR_EMP_MST
-		WHERE COMPANY_CD = #{P_COMPANY_CD} AND EMP_NO = #{P_EMP_NO}
+		WHERE ( COMPANY_CD = #{P_COMPANY_CD} ) 
+		AND ( EMP_NO = #{P_EMP_NO} )
 	</select>
-	
-	
+
+	<select id="selectMstPK"
+		parameterType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model"
+		resultType="Integer">
+		SELECT 
+			  COUNT(*)
+		FROM HR_MTNITYIDNF_MST
+		WHERE ( COMPANY_CD = #{company_cd} )
+		AND ( EMP_NO = #{emp_no} )
+		AND ( DECL_DT = #{decl_dt} )
+	</select>
+
+	<select id="selectDtlPK"
+		parameterType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model"
+		resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM
+			HR_MTNITYIDNF_DTL
+		WHERE
+			( START_DT = #{start_dt} )
+			AND ( END_DT = #{end_dt} )
+			AND ( EMP_NO = #{emp_no} )
+
+	</select>
+ 
+	<insert id="insertMstBatch"
+		parameterType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model">
+		<selectKey order="BEFORE" keyProperty="doc_no"
+			resultType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model">
+			SELECT
+				CONCAT('MPC',CONCAT(TO_CHAR(SYSDATE,'yyyyMM'),
+				LPAD(SUBSTR(NVL2(MAX(DOC_NO),MAX(DOC_NO),0),10,4)+1,4,0))) AS doc_no
+			FROM 
+				HR_MTNITYIDNF_MST
+			WHERE 
+				COMPANY_CD = #{company_cd} --여기?
+		</selectKey>
+		INSERT INTO HR_MTNITYIDNF_MST
+		(
+			COMPANY_CD, EMP_NO, DOC_NO, IDNFR_FG, TRGTP_RES_NO,
+			WRT_DT, CLOSE_YN, REQ_KND_FG, DECL_DT, BIZAREA_MNG_NO,
+			BIZAREA_CD, POST_NO, ADDR_TP, BASE_ADDR, DTL_ADDR,
+			PSPTCOM_YN, RSPT_EMP_NO, RSPT_TEL_NO, RSPT_EMAIL_NM, CHLDBRTH_DT,
+			DIVD_YN, TERM_CD, MLTPPRGN_YN, USL_WAGE_CD, USL_WAGE_AMT,
+			MM_FIXED_LABORTM_DY, INSERT_ID, INSERT_IP, INSERT_DTS, UPDATE_ID,
+			UPDATE_IP, UPDATE_DTS
+		)
+		VALUES
+		(
+			#{company_cd},#{emp_no},#{doc_no},'1',
+			<if test="trgtp_res_no != null">#{trgtp_res_no}</if>
+			<if test="trgtp_res_no == null">null</if>
+			,
+			<if test="wrt_dt != null">#{wrt_dt}</if>
+			<if test="wrt_dt == null">null</if>
+			,
+			<if test="close_yn != null">#{close_yn}</if>
+			<if test="close_yn == null">null</if>
+			,
+			<if test="req_knd_fg != null">#{req_knd_fg}</if>
+			<if test="req_knd_fg == null">null</if>
+			,
+			<if test="decl_dt != null">#{decl_dt}</if>
+			<if test="decl_dt == null">null</if>
+			,
+			<if test="bizarea_mng_no != null">#{bizarea_mng_no}</if>
+			<if test="bizarea_mng_no == null">null</if>
+			,
+			<if test="bizarea_cd != null">#{bizarea_cd}</if>
+			<if test="bizarea_cd == null">null</if>
+			,
+			<if test="post_no != null">#{post_no}</if>
+			<if test="post_no == null">null</if>
+			,
+			<if test="addr_tp != null">#{addr_tp}</if>
+			<if test="addr_tp == null">null</if>
+			,
+			<if test="base_addr != null">#{base_addr}</if>
+			<if test="base_addr == null">null</if>
+			,
+			<if test="dtl_addr != null">#{dtl_addr}</if>
+			<if test="dtl_addr == null">null</if>
+			,
+			<if test="psptcom_yn != null">#{psptcom_yn}</if>
+			<if test="psptcom_yn == null">null</if>
+			,
+			<if test="rspt_emp_no != null">#{rspt_emp_no}</if>
+			<if test="rspt_emp_no == null">null</if>
+			,
+			<if test="rspt_tel_no != null">#{rspt_tel_no}</if>
+			<if test="rspt_tel_no == null">null</if>
+			,
+			<if test="rspt_email_nm != null">#{rspt_email_nm}</if>
+			<if test="rspt_email_nm == null">null</if>
+			,
+			<if test="chldbrth_dt != null">#{chldbrth_dt}</if>
+			<if test="chldbrth_dt == null">null</if>
+			,
+			<if test="divd_yn != null">#{divd_yn}</if>
+			<if test="divd_yn == null">null</if>
+			,
+			<if test="term_cd != null">#{term_cd}</if>
+			<if test="term_cd == null">null</if>
+			,
+			<if test="mltpprgn_yn != null">#{mltpprgn_yn}</if>
+			<if test="mltpprgn_yn == null">null</if>
+			,
+			<if test="usl_wage_cd != null">#{usl_wage_cd}</if>
+			<if test="usl_wage_cd == null">null</if>
+			,
+			<if test="usl_wage_amt != null">#{usl_wage_amt}</if>
+			<if test="usl_wage_amt == null">null</if>
+			,
+			<if test="mm_fixed_labortm_dy != null">#{mm_fixed_labortm_dy}</if>
+			<if test="mm_fixed_labortm_dy == null">null</if>
+			,
+			#{insert_id},#{insert_ip},#{insert_dts},
+			#{update_id}, #{update_ip},#{update_dts}
+		)
+	</insert>
+
+	<insert id="insertDtl" parameterType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model">
+		INSERT INTO
+				HR_MTNITYIDNF_DTL 
+				(
+				  COMPANY_CD
+				, DOC_NO
+				, EMP_NO
+				, SQ_NO
+				, START_DT
+				, END_DT
+				, PAY_YN
+				, PAY_AMT
+				, INSERT_ID
+				, INSERT_IP
+				, INSERT_DTS
+				, UPDATE_ID
+				, UPDATE_IP
+				, UPDATE_DTS
+				)
+		VALUES (
+				  #{company_cd}
+				, (SELECT MAX(DOC_NO) FROM HR_MTNITYIDNF_MST WHERE COMPANY_CD=#{company_cd} AND EMP_NO=#{emp_no})
+				, #{emp_no}
+				, COALESCE(	(SELECT MAX(TO_NUMBER(SQ_NO))+1 
+					   FROM HR_MTNITYIDNF_DTL 
+					   WHERE COMPANY_CD=#{company_cd}
+							AND EMP_NO=#{emp_no}
+							AND DOC_NO = (
+										  SELECT MAX(DOC_NO) 
+									  	  FROM HR_MTNITYIDNF_MST 
+									      WHERE COMPANY_CD=#{company_cd}
+								          AND EMP_NO=#{emp_no}
+							             )
+					    ),1)
+				, #{start_dt}
+				, #{end_dt}
+				, #{pay_yn}
+				, #{pay_amt}
+				, #{insert_id}
+				, #{insert_ip}
+				, #{insert_dts}
+				, #{update_id}
+				, #{update_ip}
+				, #{update_dts}
+			  )
+	</insert>
+
+	<update id="updateMstBatch"
+		parameterType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model">
+		UPDATE HR_MTNITYIDNF_MST
+		<set>
+			wrt_dt= #{wrt_dt},
+			close_yn = #{close_yn},
+			req_knd_fg = #{req_knd_fg},
+			decl_dt =#{decl_dt},
+			bizarea_mng_no = #{bizarea_mng_no},
+			bizarea_cd =
+			#{bizarea_cd},
+			post_no= #{post_no},
+			rspt_emp_no = #{rspt_emp_no},
+			<if test="addr_tp != null and addr_tp != ''">
+				addr_tp = #{addr_tp},
+			</if>
+			<if test="addr_tp == null">addr_tp =null,</if>
+			<if test="base_addr != null and base_addr != ''">
+				base_addr = #{base_addr},
+			</if>
+			<if test="base_addr == null">base_addr = null,</if>
+			<if test="dtl_addr != null and dtl_addr != ''">
+				dtl_addr = #{dtl_addr},
+			</if>
+			psptcom_yn =#{psptcom_yn},
+			<if test="rspt_tel_no != null and rspt_tel_no != ''">
+				rspt_tel_no = #{rspt_tel_no},
+			</if>
+			<if test="rspt_tel_no == null">rspt_tel_no = null,</if>
+			<if test="rspt_email_nm != null and rspt_email_nm != ''">
+				rspt_email_nm = #{rspt_email_nm},
+			</if>
+			<if test="rspt_email_nm == null">rspt_email_nm = null,</if>
+			<if test="chldbrth_dt != null and chldbrth_dt != ''">
+				chldbrth_dt = #{chldbrth_dt},
+			</if>
+			divd_yn = #{divd_yn},
+			term_cd = #{term_cd},
+			mltpprgn_yn
+			=#{mltpprgn_yn},
+			usl_wage_cd = #{usl_wage_cd},
+			<if test="usl_wage_amt != null and usl_wage_amt != ''">
+				usl_wage_amt = #{usl_wage_amt},
+			</if>
+			<if test="usl_wage_amt == null">usl_wage_amt= null,</if>
+			<if
+				test="mm_fixed_labortm_dy != null and mm_fixed_labortm_dy != ''">
+				mm_fixed_labortm_dy = #{mm_fixed_labortm_dy},
+			</if>
+			update_id = #{update_id},
+			update_ip = #{update_ip},
+			update_dts =
+			#{update_dts}
+		</set>
+		WHERE company_cd = #{company_cd}
+		AND emp_no =#{emp_no}
+		AND doc_no =
+		#{doc_no}
+	</update>
+
+	<update id="updateDtlBatch"
+		parameterType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model">
+		UPDATE HR_MTNITYIDNF_DTL
+		<set>
+			start_dt = #{start_dt},
+			end_dt = #{end_dt},
+			pay_yn = #{pay_yn},
+			<if test="pay_amt != null">pay_amt = #{pay_amt}</if>
+			<if test="pay_amt == null">pay_amt = null</if>
+			,
+			update_id = #{update_id},
+			update_ip = #{update_ip},
+			update_dts =
+			#{update_dts}
+		</set>
+		WHERE company_cd = #{company_cd}
+		AND emp_no =#{emp_no}
+		AND doc_no =
+		#{doc_no}
+		AND sq_no = #{sq_no}
+	</update>
+
+	<delete id="deleteDtl"
+		parameterType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model">
+		DELETE 
+			FROM HR_MTNITYIDNF_DTL
+		WHERE ( COMPANY_CD = #{company_cd} )
+		AND ( DOC_NO = #{doc_no} )
+		AND ( EMP_NO = #{emp_no} )
+		AND ( #{sq_no} IS NULL OR #{sq_no} =' ' OR SQ_NO = #{sq_no} )
+	</delete>
+
+	<delete id="deleteMstBatch"
+		parameterType="com.douzone.comet.service.hr.pammpm.models.Pammpm00200_Model">
+		DELETE 
+			FROM HR_MTNITYIDNF_MST
+		WHERE ( COMPANY_CD = #{company_cd} )
+		AND ( EMP_NO = #{emp_no} )
+		AND ( DOC_NO = #{doc_no} )
+
+	</delete>
 
 </mapper>
